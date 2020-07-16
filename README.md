@@ -1,4 +1,5 @@
 ## Pretzel-Desktop
+[![pretzeldesktop](https://snapcraft.io//pretzeldesktop/badge.svg)](https://snapcraft.io/pretzeldesktop)
 
 I have not any connection or whatsoever with pretzel or pretzel.rocks. This project is only made 'cause the lack of linux support for their app.
 this repo is open for improvements.
