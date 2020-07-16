@@ -1,0 +1,14 @@
+appId: rocks.pretzel.player
+mac:
+  category: public.app-category.entertainment
+win:
+  target: msi
+snap:
+  plugs:
+  - default
+  - screen-inhibit-control
+linux:
+  category: Audio
+  target:
+  - AppImage
+  - snap
