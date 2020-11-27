@@ -14,6 +14,11 @@ deb:
 snap:
   stagePackages:
   - libgconf-2-4
+  - libXss
+  - libnspr4
+  - libnss3
+  - libnssutil3
+  - libsmime3
   plugs:
   - default
   - screen-inhibit-control
