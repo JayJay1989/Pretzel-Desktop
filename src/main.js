@@ -190,16 +190,13 @@ const createWindow = () => {
     mainWindow = new BrowserWindow({
         x,
         y,
-        width: 304,
-        height: process.platform === 'darwin' ? 470 : 500,
-        minWidth: 304,
-        maxWidth: 304,
+        width: 1000,
+        height: 800,
+        minWidth: 800,
         minHeight: process.platform === 'darwin' ? 470 : 500,
-        maxHeight: process.platform === 'darwin' ? 470 : 500,
-        resizable: false,
-        maximizable: false,
-        fullscreenable: false,
-        frame: false,
+        resizable: true,
+        maximizable: true,
+        frame: true,
         autoHideMenuBar: true,
         backgroundColor: '#262b2a',
         title: 'Pretzel',
@@ -216,7 +213,7 @@ const createWindow = () => {
         const port = parseInt(process.env.PORT, 10) || 3001;
         appUrl = `http://app.pretzel.wtf:${port}`;
     } else {
-        appUrl = `https://app.pretzel.rocks`;
+        appUrl = `https://play.pretzel.rocks`;
     }
     if (process.platform == 'win32') {
         const launchArgs = process.argv.slice(1);
