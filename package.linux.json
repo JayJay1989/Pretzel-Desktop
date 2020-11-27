@@ -1,6 +1,6 @@
 {
   "name": "pretzeldesktop",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "An Electron Based Audio Player. Supporting pretzel.rocks",
   "main": "src/main.js",
   "scripts": {
