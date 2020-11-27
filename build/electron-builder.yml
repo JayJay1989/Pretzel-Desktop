@@ -1,9 +1,19 @@
 appId: rocks.pretzel.player
+copyright: Copyright 2016-2020 Pretzel Rocks ltd
+productName: Pretzel-Desktop
 mac:
   category: public.app-category.entertainment
 win:
   target: msi
+deb:
+  priority: optional
+  depends:
+  - gconf2
+  - gconf-service
+  - libgconf-2-4
 snap:
+  stagePackages:
+  - libgconf-2-4
   plugs:
   - default
   - screen-inhibit-control

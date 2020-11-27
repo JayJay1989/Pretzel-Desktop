@@ -13,7 +13,7 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^2.0.18",
-    "electron-builder": "^22.7.0"
+    "electron-builder": "^22.8.0"
   },
   "dependencies": {
     "deep-equal": "^1.0.1",
@@ -21,6 +21,8 @@
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.3",
     "fs-jetpack": "^2.0.0",
+    "jsonfile": "^6.1.0",
+    "mkdirp": "^1.0.4",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "ws": "^5.2.0"
