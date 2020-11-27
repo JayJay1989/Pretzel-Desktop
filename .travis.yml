@@ -20,6 +20,7 @@ addons:
   apt:
     packages:
       - graphviz
+      - libgconf-2-4
 
 install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ln -s package.linux.json package.json; fi
