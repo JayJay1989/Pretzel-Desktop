@@ -1,30 +1,33 @@
 {
   "name": "pretzeldesktop",
-  "version": "2.0.11",
-  "description": "An Electron Based Audio Player. Supporting pretzel.rocks",
-  "main": "src/main.js",
+  "version": "2.1.0",
+  "description": "Pretzel is the first music solution built specifically for live streamers.",
+  "main": "./src/build/desktop/src/index.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo 'TODO: Tests'",
     "build": "electron-builder -c build/electron-builder.yml -p never"
   },
   "repository": "https://github.com/JayJay1989/Pretzel-Desktop.git",
-  "author": "Helpdesk <info@pretzel.rocks>",
+  "author": "PretzelAux <support@pretzel.rocks> (https://pretzel.rocks/)",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^2.0.18",
-    "electron-builder": "^22.8.0"
+    "electron": "^10.0.1",
+    "electron-builder": "^22.9.1"
   },
   "dependencies": {
-    "deep-equal": "^1.0.1",
-    "electron-context-menu": "^0.10.0",
-    "electron-is-dev": "^0.3.0",
-    "electron-log": "^2.2.3",
-    "fs-jetpack": "^2.0.0",
-    "jsonfile": "^6.1.0",
-    "mkdirp": "^1.0.4",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.0",
-    "ws": "^5.2.0"
+    "auto-launch": "^5.0.5",
+    "axios": "^0.20.0",
+    "deep-equal": "1.0.1",
+    "dotenv": "^8.2.0",
+    "electron-context-menu": "^2.0.1",
+    "electron-debug": "^3.1.0",
+    "electron-is-dev": "^1.2.0",
+    "electron-log": "^4.2.2",
+    "electron-updater": "^4.3.0",
+    "electron-window-state": "^5.0.3",
+    "fs-jetpack": "^3.1.0",
+    "jsonfile": "^6.0.1",
+    "node-fetch": "^2.6.0",
+    "typescript": "^3.9.6"
   }
 }
