@@ -1,6 +1,9 @@
 .DS_Store
 dist/
-node_modules/
+
+node_modules/*
+!node_modules/@pretzel-aux
+
 thumbs.db
 
 # IntelliJ platform
