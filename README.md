@@ -11,6 +11,11 @@ this repo is open for improvements.
 You can install Pretzel-Desktop with a snap. This is recommended method of installation for Linux as automatic updates will occur.
 
 ```bash
+snap install pretzeldesktop --channel=beta
+```
+
+Old (small) player
+```bash
 snap install pretzeldesktop
 ```
 
