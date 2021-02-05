@@ -37,34 +37,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.GlobalShortcutChannel = void 0;
-var electron_1 = require("electron");
-var IPCRequest_1 = require("../../../common/src/Core/IPC/IPCRequest");
+var electron = require("electron");
+var IPCRequest = require("../../../common/src/Core/IPC/IPCRequest");
 var GlobalShortcutChannel = /** @class */ (function () {
     function GlobalShortcutChannel(mainWindow) {
         this.mainWindow = mainWindow;
     }
     GlobalShortcutChannel.prototype.getName = function () {
-        return [IPCRequest_1.GLOBAL_SHORTCUT_REGISTRATION, IPCRequest_1.GLOBAL_SHORTCUT_REMOVAL];
+        return [IPCRequest.GLOBAL_SHORTCUT_REGISTRATION, IPCRequest.GLOBAL_SHORTCUT_REMOVAL];
     };
     GlobalShortcutChannel.prototype.handle = function (event, request) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, accelerator, payload_1, error, result, accelerator;
             var _this = this;
             return __generator(this, function (_b) {
-                if (request.params.type === IPCRequest_1.GLOBAL_SHORTCUT_REGISTRATION) {
+                if (request.params.type === IPCRequest.GLOBAL_SHORTCUT_REGISTRATION) {
                     _a = request.params, accelerator = _a.accelerator, payload_1 = _a.payload, error = _a.error;
                     if (error) {
                         return [2 /*return*/];
                     }
-                    result = electron_1.globalShortcut.register(accelerator, function () {
+                    result = electron.globalShortcut.register(accelerator, function () {
                         console.log("Received Global Shortcut", payload_1);
-                        _this.mainWindow.webContents.send(IPCRequest_1.GLOBAL_SHORTCUT_EXECUTED, payload_1);
+                        _this.mainWindow.webContents.send(IPCRequest.GLOBAL_SHORTCUT_EXECUTED, payload_1);
                     });
                     console.log("Registering Global Shortcut: " + accelerator + ": " + result);
                 }
-                else if (request.params.type === IPCRequest_1.GLOBAL_SHORTCUT_REMOVAL) {
+                else if (request.params.type === IPCRequest.GLOBAL_SHORTCUT_REMOVAL) {
                     accelerator = request.params.accelerator;
-                    electron_1.globalShortcut.unregister(accelerator);
+                    electron.globalShortcut.unregister(accelerator);
                     console.log("Removing Global Shortcut: " + accelerator);
                 }
                 else {

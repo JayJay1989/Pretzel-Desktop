@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.PickFileChannel = void 0;
-var electron_1 = require("electron");
-var IPCRequest_1 = require("../../../common/src/Core/IPC/IPCRequest");
+var electron = require("electron");
+var IPCRequest = require("../../../common/src/Core/IPC/IPCRequest");
 var jetpack = require("fs-jetpack");
 var PickFileChannel = /** @class */ (function () {
     function PickFileChannel(mainWindow) {
@@ -46,14 +46,14 @@ var PickFileChannel = /** @class */ (function () {
         console.log("Instantiating PickFileChannel");
     }
     PickFileChannel.prototype.getName = function () {
-        return IPCRequest_1.PICK_FILE;
+        return IPCRequest.PICK_FILE;
     };
     PickFileChannel.prototype.handle = function (event, request) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, title, message, filters, defaultPath, config;
             var _this = this;
             return __generator(this, function (_b) {
-                if (request.params.type !== IPCRequest_1.PICK_FILE) {
+                if (request.params.type !== IPCRequest.PICK_FILE) {
                     return [2 /*return*/];
                 }
                 _a = request.params, title = _a.title, message = _a.message, filters = _a.filters, defaultPath = _a.defaultPath;
@@ -66,7 +66,7 @@ var PickFileChannel = /** @class */ (function () {
                     config.defaultPath = defaultPath;
                 }
                 console.log("Creating Dialog", request.params);
-                electron_1.dialog
+                electron.dialog
                     .showSaveDialog(this.mainWindow, config)
                     .then(function (_a) {
                     var filePath = _a.filePath, canceled = _a.canceled;

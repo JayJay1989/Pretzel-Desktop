@@ -1,3 +1,4 @@
 "use strict";
-exports.__esModule = true;
-//# sourceMappingURL=ChannelInterface.js.map
+module.exports = {
+
+}

@@ -61,13 +61,13 @@ exports.__esModule = true;
 exports.WriteTrackInfoChannel = void 0;
 var jetpack = require("fs-jetpack");
 var fs = __importStar(require("fs"));
-var axios_1 = __importDefault(require("axios"));
-var IPCRequest_1 = require("../../../common/src/Core/IPC/IPCRequest");
+var axios = __importDefault(require("axios"));
+var IPCRequest = require("../../../common/src/Core/IPC/IPCRequest");
 var WriteTrackInfoChannel = /** @class */ (function () {
     function WriteTrackInfoChannel() {
     }
     WriteTrackInfoChannel.prototype.getName = function () {
-        return IPCRequest_1.WRITE_TRACK_INFO;
+        return IPCRequest.WRITE_TRACK_INFO;
     };
     WriteTrackInfoChannel.prototype.handle = function (event, request) {
         return __awaiter(this, void 0, void 0, function () {
@@ -75,7 +75,7 @@ var WriteTrackInfoChannel = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        if (request.params.type !== IPCRequest_1.WRITE_TRACK_INFO)
+                        if (request.params.type !== IPCRequest.WRITE_TRACK_INFO)
                             return [2 /*return*/];
                         console.log("WriteTrackInfoChannel", request);
                         _a = request.params, filename = _a.filename, contents = _a.contents, coverFilename = _a.coverFilename, coverURL = _a.coverURL, jsonFilename = _a.jsonFilename, jsonString = _a.jsonString;
@@ -91,7 +91,7 @@ var WriteTrackInfoChannel = /** @class */ (function () {
                         }
                         if (!(coverFilename && !!coverURL)) return [3 /*break*/, 2];
                         writer = fs.createWriteStream(coverFilename);
-                        return [4 /*yield*/, axios_1["default"]({
+                        return [4 /*yield*/, axios["default"]({
                                 url: coverURL,
                                 method: "GET",
                                 responseType: "stream"
