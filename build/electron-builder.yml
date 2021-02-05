@@ -8,18 +8,22 @@ win:
 deb:
   priority: optional
   depends:
-  - gconf2
-  - gconf-service
-  - libgconf-2-4
+    - gconf2
+    - gconf-service
+    - libgconf-2-4
 snap:
   stagePackages:
-  - libgconf-2-4
-  - libxss1
-  - libnspr4
-  - libnss3
+    - libgconf-2-4
+    - libxss1
+    - libnspr4
+    - libnss3
   plugs:
-  - default
-  - screen-inhibit-control
+    - default
+    - screen-inhibit-control
+  slots:
+    mpris:
+      interface: mpris
+      name: chromium
 linux:
   category: Audio
   target:

@@ -21,7 +21,7 @@ Download the AppImage from the [Github Releases here](https://github.com/JayJay1
 
 # Developing
 
-Sorry in advance that build system currently to get the app working is a mess and requires multiple package.json's this will hopefully be fixed in the future. Please contact me if you need help.
+
 
 ```bash
 git clone https://github.com/JayJay1989/Pretzel-Desktop.git
@@ -35,5 +35,18 @@ ln -s package.linux.json package.json
 ln -s package.mac.json package.json
 
 npm install
+npm compile
 npm start
+npm build
 ```
+
+### Commands
+| Command   | Description  |
+|---|---|
+| `npm compile`  | Compiles typescript  |
+| `npm build`  | Compiles the application  |
+| `npm start`  | Run electron app  |
+
+ 
+
+ 
