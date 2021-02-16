@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "outDir": "src/build",
+    "baseUrl": "."
+  },
+  "include": [
+    "src/common/*",
+    "src/desktop/*",
+  ]
+}
