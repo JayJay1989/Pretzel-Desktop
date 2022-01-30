@@ -15,9 +15,9 @@ You can install Pretzel-Desktop with a snap. This is recommended method of insta
 snap install pretzeldesktop
 ```
 
-## Linux AppImage
+## Other distro's
 
-Download the AppImage from the [Github Releases here](https://github.com/JayJay1989/Pretzel-Desktop/releases).
+Download the latest version from the [Github Releases here](https://github.com/JayJay1989/Pretzel-Desktop/releases).
 
 # Developing
 
