@@ -27,13 +27,6 @@ Download the AppImage from the [Github Releases here](https://github.com/JayJay1
 git clone https://github.com/JayJay1989/Pretzel-Desktop.git
 cd pretzeldesktop/
 
-# For Windows
-ln -s package.win.json package.json
-# For Linux
-ln -s package.linux.json package.json
-# For Mac
-ln -s package.mac.json package.json
-
 npm run install
 npm run compile
 npm run start

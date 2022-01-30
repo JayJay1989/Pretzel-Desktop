@@ -16,3 +16,4 @@ thumbs.db
 # Development
 package.json
 *-lock.json
+/app/

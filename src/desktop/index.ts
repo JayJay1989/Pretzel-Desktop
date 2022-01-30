@@ -1,5 +1,15 @@
 "use strict";
-import { app, shell, BrowserWindow, ipcMain, Menu, protocol, globalShortcut, MenuItemConstructorOptions } from 'electron'
+import {
+    app,
+    shell,
+    BrowserWindow,
+    ipcMain,
+    Menu,
+    protocol,
+    globalShortcut,
+    MenuItemConstructorOptions,
+    NewWindowWebContentsEvent, IpcMainEvent
+} from 'electron'
 import * as electronLog from "electron-log"
 import * as jetpack from "fs-jetpack"
 import {Console} from "console"
@@ -7,47 +17,24 @@ import {Console} from "console"
 import {GlobalShortcutChannel} from "./channels/GlobalShortcutChannel";
 import {PickFileChannel} from "./channels/PickFileChannel";
 import {WriteTrackInfoChannel} from "./channels/WriteTrackInfoChannel";
+import {AccountInfoChannel} from "./channels/AccountInfoChannel";
 import * as windowStateKeeper from "electron-window-state";
 import * as path from "path";
-import * as electronDebug from "electron-debug";
 import * as electronContextMenu from "electron-context-menu";
 import * as dotenv from "dotenv"
+import * as debug from "electron-debug";
+import {ChannelInterface} from "./channels/ChannelInterface";
 
 const console = new Console(process.stdout, process.stderr);
-const isDev = false;
 
 let mainWindow: BrowserWindow;
 let appUrl: string;
 let launchUrl: string;
 let willQuitApp: boolean = false;
 
-//electronDebug({showDevTools: false});
+debug();
 
 electronContextMenu({
-    prepend: (params, browserWindow) => {
-        return [
-            {
-                label: "Debug",
-                submenu: [
-                    {
-                        label: "Toggle verbose logging",
-                        click: () => mainWindow.webContents.executeJavaScript("pretzel_debug.toggleVerbose()")
-                    },
-                    {
-                        type: "separator"
-                    },
-                    {
-                        label: "Simulate 2 hour playback refresh",
-                        click: () => mainWindow.webContents.executeJavaScript("pretzel_debug.force2Hours()")
-                    },
-                    {
-                        label: "Simulate 3 hour paused refresh",
-                        click: () => mainWindow.webContents.executeJavaScript("pretzel_debug.force3Hours()")
-                    }
-                ]
-            }
-        ];
-    },
     shouldShowMenu: (event, params) => {
         if (params.mediaType === "image") {
             return false;
@@ -61,7 +48,7 @@ if (!isPrimary) {
     app.quit();
 }
 
-app.on("second-instance", (event, commandLine, workingDirectory) => {
+app.on("second-instance", (event: Event, commandLine: string[], workingDirectory: string) => {
     let handleableUrl;
     if (process.platform == "win32") {
         let launchArgs = commandLine.slice(1);
@@ -86,7 +73,7 @@ app.on("second-instance", (event, commandLine, workingDirectory) => {
     }
 });
 
-let template : Electron.MenuItemConstructorOptions[] = [
+let template : MenuItemConstructorOptions[] = [
     {
         label: "Edit",
         submenu: [
@@ -148,6 +135,34 @@ let template : Electron.MenuItemConstructorOptions[] = [
         ]
     }
 ];
+if (process.platform === 'darwin') {
+    var name = app.getName();
+    template.unshift({
+        label: name,
+        submenu: [
+            {
+                label: 'About ' + name,
+                role: 'about'
+            },
+            { type: 'separator' },
+            { role: 'services', submenu: [] },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideOthers' },
+            { role: 'unhide' },
+            { type: 'separator' },
+            {
+                label: 'Quit',
+                accelerator: 'Command+Q',
+                click: function () {
+                    app.quit();
+                }
+            },
+        ]
+    });
+}
+
+
 
 let createWindow = () => {
     let mainWindowState = windowStateKeeper({
@@ -160,7 +175,7 @@ let createWindow = () => {
         width: mainWindowState.width,
         height: mainWindowState.height,
         minWidth: 310,
-        minHeight: 463,
+        minHeight: 485,
         resizable: true,
         maximizable: true,
         frame: true,
@@ -170,11 +185,13 @@ let createWindow = () => {
         show: false,
         webPreferences: {
             nodeIntegration: true,
-            enableRemoteModule: true
+            contextIsolation: false,
+            enableRemoteModule: true,
         }
     });
 
     mainWindowState.manage(mainWindow);
+    mainWindow.webContents.openDevTools();
 
     try {
         console.log("ENV", dotenv.config());
@@ -199,7 +216,7 @@ let createWindow = () => {
 
     mainWindow.loadURL(launchUrl ? "" + appUrl + launchUrl : appUrl);
 
-    mainWindow.on("close", (e) => {
+    mainWindow.on("close", (e: Event) => {
         if (process.platform === "darwin") {
             if (!willQuitApp) {
                 e.preventDefault();
@@ -214,11 +231,11 @@ let createWindow = () => {
         mainWindow.show();
     });
 
-    mainWindow.webContents.on("crashed", (e, killed) => {
+    mainWindow.webContents.on("crashed", (e: Event, killed: boolean) => {
         electronLog["default"].error("webContents", {e: e, killed: killed});
     });
 
-    mainWindow.webContents.on("new-window", (e, url) => {
+    mainWindow.webContents.on("new-window", (e: NewWindowWebContentsEvent, url: string) => {
         if (url != mainWindow.webContents.getURL()) {
             e.preventDefault();
             shell.openExternal(url);
@@ -233,12 +250,17 @@ let createWindow = () => {
     [
         new WriteTrackInfoChannel(),
         new PickFileChannel(mainWindow),
-        new GlobalShortcutChannel(mainWindow)
-    ].forEach((channel) => {
-        console.log("Setting up IPCRequest.ts Channel: ", channel.getName());
-        ipcMain.on(<string>channel.getName(), (event, request) => {
-            return channel.handle(event, request);
-        });
+        new GlobalShortcutChannel(mainWindow),
+        new AccountInfoChannel()
+    ].forEach((channel: ChannelInterface) => {
+        var names = channel.getName();
+        console.log("Setting up IPCRequest.ts Channel: ", names);
+        if (!Array.isArray(names)) {
+            names = [names];
+        }
+        names.forEach((name: string) => {
+            ipcMain.on(name, (event, request) => { channel.handle(event, request) });
+        })
     });
 };
 
@@ -309,12 +331,12 @@ app.on("activate", () => {
     }
 });
 
-ipcMain.on("applyAppSettings", (event, data) => {
+ipcMain.on("applyAppSettings", (event: IpcMainEvent, data) => {
     if (data) {
         mainWindow.setAlwaysOnTop(data.alwaysOnTop || false);
     }
 });
 
-process.on("uncaughtException", (e) => {
+process.on("uncaughtException", (e: Error) => {
     electronLog["default"].error("uncaughtException", {e: e});
 });

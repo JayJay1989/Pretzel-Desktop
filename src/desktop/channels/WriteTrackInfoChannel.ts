@@ -3,7 +3,7 @@ import {ChannelInterface} from "./ChannelInterface";
 import * as jetpack from "fs-jetpack";
 import * as fs from "fs";
 import * as axios from "axios";
-import {IPCRequest, WRITE_TRACK_INFO} from "../../common/Core/IPC/IPCRequest";
+import {IpcRequest, WRITE_TRACK_INFO} from "../../common/Core/IPC/IPCRequest";
 
 export class WriteTrackInfoChannel implements ChannelInterface {
 
@@ -11,7 +11,7 @@ export class WriteTrackInfoChannel implements ChannelInterface {
         return WRITE_TRACK_INFO;
     }
 
-    handle(event: IpcMainEvent, request: IPCRequest) {
+    handle(event: IpcMainEvent, request: IpcRequest) {
         return new Promise<void>((resolve, reject) => {
             if(request.params.type !== WRITE_TRACK_INFO) return;
             let params = request.params,

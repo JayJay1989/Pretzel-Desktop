@@ -1,7 +1,7 @@
 import {IpcMainEvent} from 'electron';
-import {IPCRequest} from "../../common/Core/IPC/IPCRequest";
+import {IpcRequest} from "../../common/Core/IPC/IPCRequest";
 
 export interface ChannelInterface {
     getName(): any;
-    handle(event: IpcMainEvent, request: IPCRequest): Promise<void>
+    handle(event: IpcMainEvent, request: IpcRequest): Promise<void>
 }

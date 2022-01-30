@@ -1,7 +1,7 @@
 import {dialog, BrowserWindow, IpcMainEvent, SaveDialogOptions} from "electron"
 import * as jetpack from"fs-jetpack";
 import {ChannelInterface} from "./ChannelInterface";
-import {IPCRequest, PICK_FILE} from "../../common/Core/IPC/IPCRequest";
+import {IpcRequest, PICK_FILE} from "../../common/Core/IPC/IPCRequest";
 
 export class PickFileChannel implements ChannelInterface{
     private mainWindow: BrowserWindow;
@@ -15,7 +15,7 @@ export class PickFileChannel implements ChannelInterface{
         return PICK_FILE;
     }
 
-    handle(event: IpcMainEvent, request: IPCRequest) {
+    handle(event: IpcMainEvent, request: IpcRequest) {
         return new Promise<void>((resolve, reject) => {
             if (request.params.type !== PICK_FILE) return;
             let params = request.params;

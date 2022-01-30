@@ -1,6 +1,6 @@
 appId: rocks.pretzel.player
 copyright: Copyright 2016-2020 Pretzel Rocks ltd
-productName: Pretzel-Desktop
+productName: PretzelDesktop
 mac:
   category: public.app-category.entertainment
 win:

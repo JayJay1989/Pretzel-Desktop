@@ -4,7 +4,7 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "moduleResolution": "node",
-    "outDir": "src/build",
+    "outDir": "app/build",
     "baseUrl": "."
   },
   "include": [

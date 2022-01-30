@@ -1,6 +1,6 @@
 import {BrowserWindow, globalShortcut, IpcMainEvent} from "electron"
 
-import {GLOBAL_SHORTCUT_REGISTRATION, GLOBAL_SHORTCUT_REMOVAL, IPCRequest} from "../../common/Core/IPC/IPCRequest";
+import {GLOBAL_SHORTCUT_REGISTRATION, GLOBAL_SHORTCUT_REMOVAL, IpcRequest} from "../../common/Core/IPC/IPCRequest";
 import {ChannelInterface} from "./ChannelInterface";
 
 export class GlobalShortcutChannel implements ChannelInterface{
@@ -14,7 +14,7 @@ export class GlobalShortcutChannel implements ChannelInterface{
         return [GLOBAL_SHORTCUT_REGISTRATION, GLOBAL_SHORTCUT_REMOVAL];
     }
 
-    handle(event: IpcMainEvent, request: IPCRequest) {
+    handle(event: IpcMainEvent, request: IpcRequest) {
         return new Promise<void>(() => {
             let params = request.params;
             if(params.type === GLOBAL_SHORTCUT_REGISTRATION){
