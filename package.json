@@ -1,12 +1,14 @@
 {
     "name": "pretzeldesktop",
-    "version": "2.1.0",
+    "version": "2.10.0",
     "description": "Pretzel is the first music solution built specifically for live streamers.",
     "main": "./app/build/desktop/index.js",
     "scripts": {
-        "start": "electron .",
+        "start": "npm run compile && electron .",
         "compile": "tsc",
-        "build": "electron-builder -c build/electron-builder.yml -p never"
+        "watch": "tsc -w",
+        "build": "npm run compile && electron-builder -c build/electron-builder.yml -p never",
+        "release": "npm run compile && electron-builder -c build/electron-builder.yml"
     },
     "repository": "https://github.com/JayJay1989/Pretzel-Desktop.git",
     "author": "PretzelAux <support@pretzel.rocks> (https://pretzel.rocks/)",

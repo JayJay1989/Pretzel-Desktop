@@ -12,6 +12,10 @@ deb:
     - gconf-service
     - libgconf-2-4
 snap:
+  publish:
+    provider: 'snapStore'
+    channels: ['stable']
+  grade: 'stable'
   stagePackages:
     - libgconf-2-4
     - libxss1
@@ -25,6 +29,8 @@ snap:
       interface: mpris
       name: chromium
 linux:
+  publish:
+    - github
   category: Audio
   target:
   - AppImage
