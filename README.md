@@ -34,18 +34,18 @@ ln -s package.linux.json package.json
 # For Mac
 ln -s package.mac.json package.json
 
-npm install
-npm compile
-npm start
-npm build
+npm run install
+npm run compile
+npm run start
+npm run build
 ```
 
 ### Commands
 | Command   | Description  |
 |---|---|
-| `npm compile`  | Compiles typescript  |
-| `npm build`  | Compiles the application  |
-| `npm start`  | Run electron app  |
+| `npm run compile`  | Compiles typescript  |
+| `npm run build`  | Compiles the application  |
+| `npm run start`  | Run electron app  |
 
  
 
