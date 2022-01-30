@@ -8,12 +8,11 @@ import {
     protocol,
     globalShortcut,
     MenuItemConstructorOptions,
-    NewWindowWebContentsEvent, IpcMainEvent
+    IpcMainEvent, RenderProcessGoneDetails
 } from 'electron'
 import * as electronLog from "electron-log"
 import * as jetpack from "fs-jetpack"
 import {Console} from "console"
-
 import {GlobalShortcutChannel} from "./channels/GlobalShortcutChannel";
 import {PickFileChannel} from "./channels/PickFileChannel";
 import {WriteTrackInfoChannel} from "./channels/WriteTrackInfoChannel";
@@ -21,26 +20,16 @@ import {AccountInfoChannel} from "./channels/AccountInfoChannel";
 import * as windowStateKeeper from "electron-window-state";
 import * as path from "path";
 import * as electronContextMenu from "electron-context-menu";
-import * as dotenv from "dotenv"
-import * as debug from "electron-debug";
 import {ChannelInterface} from "./channels/ChannelInterface";
-
 const console = new Console(process.stdout, process.stderr);
 
 let mainWindow: BrowserWindow;
-let appUrl: string;
+let appUrl: string = "https://play.pretzel.rocks";
 let launchUrl: string;
 let willQuitApp: boolean = false;
 
-debug();
-
 electronContextMenu({
-    shouldShowMenu: (event, params) => {
-        if (params.mediaType === "image") {
-            return false;
-        }
-        return true;
-    }
+    shouldShowMenu: (event, params) => params.mediaType !== "image"
 });
 
 let isPrimary = app.requestSingleInstanceLock();
@@ -63,7 +52,7 @@ app.on("second-instance", (event: Event, commandLine: string[], workingDirectory
     }
     if (mainWindow) {
         if (handleableUrl) {
-            mainWindow.loadURL(appUrl + "/" + handleableUrl);
+            mainWindow.loadURL(appUrl + "/" + handleableUrl).then();
         }
         if (mainWindow.isMinimized())
             mainWindow.restore();
@@ -136,7 +125,7 @@ let template : MenuItemConstructorOptions[] = [
     }
 ];
 if (process.platform === 'darwin') {
-    var name = app.getName();
+    let name = app.getName();
     template.unshift({
         label: name,
         submenu: [
@@ -191,14 +180,6 @@ let createWindow = () => {
     });
 
     mainWindowState.manage(mainWindow);
-    mainWindow.webContents.openDevTools();
-
-    try {
-        console.log("ENV", dotenv.config());
-    } catch (e) {
-    }
-
-    appUrl = "https://play.pretzel.rocks";
 
     if (process.platform == "win32") {
         let launchArgs = process.argv.slice(1);
@@ -213,9 +194,7 @@ let createWindow = () => {
     }
 
     console.log("MainWindow Loading: ", launchUrl ? "" + appUrl + launchUrl : appUrl);
-
-    mainWindow.loadURL(launchUrl ? "" + appUrl + launchUrl : appUrl);
-
+    mainWindow.loadURL(launchUrl ? "" + appUrl + launchUrl : appUrl).then();
     mainWindow.on("close", (e: Event) => {
         if (process.platform === "darwin") {
             if (!willQuitApp) {
@@ -224,26 +203,28 @@ let createWindow = () => {
             }
         }
     });
+
     mainWindow.on("closed", () => {
         mainWindow = null;
     });
-    mainWindow.on("ready-to-show", () => {
-        mainWindow.show();
+
+    mainWindow.on("ready-to-show", () => mainWindow.show());
+
+    mainWindow.webContents.on("render-process-gone", (event: Event, details: RenderProcessGoneDetails) => {
+        let isKilled = details.reason === "killed";
+        electronLog.default.error("webContents", {e: event, killed: isKilled});
     });
 
-    mainWindow.webContents.on("crashed", (e: Event, killed: boolean) => {
-        electronLog["default"].error("webContents", {e: e, killed: killed});
-    });
-
-    mainWindow.webContents.on("new-window", (e: NewWindowWebContentsEvent, url: string) => {
+    mainWindow.webContents.setWindowOpenHandler(({url}) => {
         if (url != mainWindow.webContents.getURL()) {
-            e.preventDefault();
-            shell.openExternal(url);
+            shell.openExternal(url).then();
+            return { action: 'allow' }
         }
-    });
+        return { action: 'deny' }
+    })
 
     mainWindow.on("unresponsive", ( e: string ) => {
-        electronLog["default"].error("Window unresponsive", {e: e});
+        electronLog.default.error("Window unresponsive", {e: e});
     });
 
     /** Hook up IPCRequest.ts Channels **/
@@ -253,7 +234,7 @@ let createWindow = () => {
         new GlobalShortcutChannel(mainWindow),
         new AccountInfoChannel()
     ].forEach((channel: ChannelInterface) => {
-        var names = channel.getName();
+        let names = channel.getName();
         console.log("Setting up IPCRequest.ts Channel: ", names);
         if (!Array.isArray(names)) {
             names = [names];
@@ -272,7 +253,7 @@ let handleCustomProtocolLaunch = (event: Event, url: string) => {
     let logMessage = "handling launch URL: " + url;
     console.log(logMessage);
     if (mainWindow) {
-        mainWindow.loadURL(appUrl + "/" + handleableUrl);
+        mainWindow.loadURL(appUrl + "/" + handleableUrl).then();
     } else {
         launchUrl = "/" + handleableUrl;
     }
@@ -286,10 +267,10 @@ let setUpLogging = () => {
     }
     let startLine = app.getName() + " - " + app.getVersion() + " \n";
     jetpack.write(logPath, startLine);
-    electronLog["default"].transports.file.file = logPath;
-    electronLog["default"].transports.file.maxSize = 5 * 1024 * 1024;
-    electronLog["default"].transports.file.level = "info";
-    electronLog["default"].transports.console.level = "info";
+    electronLog.default.transports.file.file = logPath;
+    electronLog.default.transports.file.maxSize = 5 * 1024 * 1024;
+    electronLog.default.transports.file.level = "info";
+    electronLog.default.transports.console.level = "info";
 };
 
 protocol.registerSchemesAsPrivileged([
@@ -301,13 +282,10 @@ app.on("ready", () => {
     let menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
     setUpLogging();
-    // app.removeListener('open-url', handleCustomProtocolLaunch);
-    // setUpCustomHandler();
     createWindow();
 });
 
 app.setAsDefaultProtocolClient("pretzel");
-
 app.setAsDefaultProtocolClient("pretzel-desktop");
 
 app.on("open-url", handleCustomProtocolLaunch);
@@ -338,5 +316,5 @@ ipcMain.on("applyAppSettings", (event: IpcMainEvent, data) => {
 });
 
 process.on("uncaughtException", (e: Error) => {
-    electronLog["default"].error("uncaughtException", {e: e});
+    electronLog.default.error("uncaughtException", {e: e});
 });

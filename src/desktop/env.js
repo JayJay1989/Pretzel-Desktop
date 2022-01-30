@@ -1,5 +1,5 @@
 export class Env {
-    default: any = {
+    default = {
         site: "https://staging--play-pretzel-rocks.netlify.app/"
     }
 }

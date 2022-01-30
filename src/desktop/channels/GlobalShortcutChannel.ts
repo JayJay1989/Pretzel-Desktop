@@ -10,12 +10,12 @@ export class GlobalShortcutChannel implements ChannelInterface{
         this.mainWindow = mainWindow;
     }
 
-    getName() {
+    getName() : string[] {
         return [GLOBAL_SHORTCUT_REGISTRATION, GLOBAL_SHORTCUT_REMOVAL];
     }
 
-    handle(event: IpcMainEvent, request: IpcRequest) {
-        return new Promise<void>(() => {
+    async handle(event: IpcMainEvent, request: IpcRequest) {
+        await new Promise<void>(() => {
             let params = request.params;
             if(params.type === GLOBAL_SHORTCUT_REGISTRATION){
                 let accelerator = params.accelerator;

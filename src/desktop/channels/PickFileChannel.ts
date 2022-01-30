@@ -2,6 +2,7 @@ import {dialog, BrowserWindow, IpcMainEvent, SaveDialogOptions} from "electron"
 import * as jetpack from"fs-jetpack";
 import {ChannelInterface} from "./ChannelInterface";
 import {IpcRequest, PICK_FILE} from "../../common/Core/IPC/IPCRequest";
+import * as cluster from "cluster";
 
 export class PickFileChannel implements ChannelInterface{
     private mainWindow: BrowserWindow;
@@ -11,12 +12,12 @@ export class PickFileChannel implements ChannelInterface{
         console.log("Instantiating PickFileChannel");
     }
 
-    getName() {
+    getName() : string {
         return PICK_FILE;
     }
 
-    handle(event: IpcMainEvent, request: IpcRequest) {
-        return new Promise<void>((resolve, reject) => {
+    async handle(event: IpcMainEvent, request: IpcRequest) {
+        await new Promise<void>(() => {
             if (request.params.type !== PICK_FILE) return;
             let params = request.params;
             let title = params.title;
