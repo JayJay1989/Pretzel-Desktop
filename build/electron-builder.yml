@@ -1,13 +1,6 @@
 appId: rocks.pretzel
 copyright: Copyright © PretzelAux, Inc.
 productName: Pretzel
-mac:
-  category: public.app-category.music
-  hardenedRuntime: true
-  entitlements: build-resources/entitlements.mac.plist
-  target:
-    target: default,
-    arch": universal
 win:
   target: msi
 deb:

@@ -6,7 +6,7 @@
     "scripts": {
         "start": "npm run compile && electron .",
         "compile": "set NODE_OPTIONS=--openssl-legacy-provider && electron-webpack",
-        "dist": "yarn compile && electron-builder",
+        "dist": "npm run compile && electron-builder -c build/electron-builder.yml",
         "watch": "tsc -w",
         "build": "npm run compile && electron-builder -c build/electron-builder.yml -p never",
         "release": "npm run compile && electron-builder -c build/electron-builder.yml"
