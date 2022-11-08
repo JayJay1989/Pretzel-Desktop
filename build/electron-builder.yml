@@ -1,8 +1,13 @@
-appId: rocks.pretzel.player
-copyright: Copyright 2016-2020 Pretzel Rocks ltd
-productName: PretzelDesktop
+appId: rocks.pretzel
+copyright: Copyright © PretzelAux, Inc.
+productName: Pretzel
 mac:
-  category: public.app-category.entertainment
+  category: public.app-category.music
+  hardenedRuntime: true
+  entitlements: build-resources/entitlements.mac.plist
+  target:
+    target: default,
+    arch": universal
 win:
   target: msi
 deb:

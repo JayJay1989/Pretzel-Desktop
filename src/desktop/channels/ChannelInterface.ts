@@ -1,7 +1,7 @@
 import {IpcMainEvent} from 'electron';
-import {IpcRequest} from "../../common/Core/IPC/IPCRequest";
+import {IpcRequest} from "../../desktop-integration";
 
-export interface ChannelInterface {
+export interface ChannelInterface<T> {
     getName(): string | string[];
-    handle(event: IpcMainEvent, request: IpcRequest): void
+    handle(event: IpcMainEvent, request: IpcRequest) : void;
 }

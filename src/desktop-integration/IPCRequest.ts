@@ -5,7 +5,14 @@ export const GLOBAL_SHORTCUT_REGISTRATION = 'register_global_shortcut';
 export const GLOBAL_SHORTCUT_REMOVAL = 'remove_global_shortcut';
 export const CLEAR_ACCOUNT_DATA = 'clear_account_data';
 
-type IpcRequestParams = WriteTrackInfoParams | PickFileParams | GlobalShortcutParams | RemoveGlobalShortcutParams | AccountDataParams;
+type IpcRequestParams =
+  | WriteTrackInfoParams
+  | PickFileParams
+  | GlobalShortcutParams
+  | RemoveGlobalShortcutParams
+  | AccountDataParams
+  | AppUpdateApplyParams
+  | AppIdleSignalParams;
 
 export interface IpcRequest {
   responseChannel?: string;
@@ -55,4 +62,18 @@ export interface RemoveGlobalShortcutParams {
 
 export interface AccountDataParams {
   type: 'clear_account_data';
+}
+
+export interface AppUpdateAvailablePayload {
+  downloaded: boolean;
+  available: boolean;
+  latest: boolean;
+}
+
+export interface AppUpdateApplyParams {
+  type: 'app_update_apply';
+}
+
+export interface AppIdleSignalParams {
+  type: 'app_idle_signal';
 }

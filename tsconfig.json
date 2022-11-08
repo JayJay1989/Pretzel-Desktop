@@ -1,14 +1,6 @@
 {
+  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
   "compilerOptions": {
-    "target": "es5",
-    "noImplicitAny": true,
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "outDir": "app/build",
-    "baseUrl": "."
-  },
-  "include": [
-    "src/common/*",
-    "src/desktop/*",
-  ]
+    "strictNullChecks": false,
+  }
 }

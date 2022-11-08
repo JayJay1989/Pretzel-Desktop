@@ -1,0 +1,9 @@
+{
+  "title": true,
+  "main": {
+    "sourceDirectory": "src/desktop"
+  },
+  "renderer": {
+    "sourceDirectory": null
+  }
+}
