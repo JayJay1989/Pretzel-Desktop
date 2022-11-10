@@ -21,11 +21,13 @@ Download the latest version from the [Github Releases here](https://github.com/J
 
 # Developing
 
-Instqlling dependencies:
+Installing dependencies:
 
 ```bash
 sudo apt install libarchive-tools rpm pacman binutils
 ```
+
+NPM commands:
 
 ```bash
 git clone https://github.com/JayJay1989/Pretzel-Desktop.git
