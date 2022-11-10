@@ -21,7 +21,11 @@ Download the latest version from the [Github Releases here](https://github.com/J
 
 # Developing
 
+Instqlling dependencies:
 
+```bash
+sudo apt install libarchive-tools rpm pacman binutils
+```
 
 ```bash
 git clone https://github.com/JayJay1989/Pretzel-Desktop.git
@@ -36,9 +40,10 @@ npm run build
 ### Commands
 | Command   | Description  |
 |---|---|
+| `npm run start`  | Run electron app (in debug mode)  |
 | `npm run compile`  | Compiles typescript  |
-| `npm run build`  | Compiles the application  |
-| `npm run start`  | Run electron app  |
+| `npm run build`  | Compiles the application |
+| `npm run dist` | Compile electron app and distribute it |
 
  
 
