@@ -39,7 +39,7 @@
         "electron-log": "^4.2.2",
         "electron-updater": "^5.0.1",
         "electron-window-state": "^5.0.3",
-        "express": "4.17.2",
+        "express": "4.17.3",
         "fs-jetpack": "^3.1.0",
         "http-errors": "^2.0.0",
         "node-fetch": "^2.6.0",
